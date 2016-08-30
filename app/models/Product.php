@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%products}}".
@@ -12,6 +13,16 @@ use Yii;
  * @property string $description
  * @property string $price
  * @property integer $available_count
+ * @property integer $size_id
+ * @property integer $stuffing_id
+ * @property integer $target_id
+ * @property integer $paste_id
+ * @property integer $oven_id
+ * @property string $size
+ * @property string $stuffing
+ * @property string $target
+ * @property string $paste
+ * @property string $oven
  */
 class Product extends \yii\db\ActiveRecord
 {
@@ -21,6 +32,17 @@ class Product extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return '{{%products}}';
+    }
+
+    public function attributes()
+    {
+        return ArrayHelper::merge(parent::attributes(), [
+            'size',
+            'stuffing',
+            'target',
+            'paste',
+            'oven',
+        ]);
     }
 
     /**
@@ -34,6 +56,7 @@ class Product extends \yii\db\ActiveRecord
             [['price'], 'number'],
             [['available_count'], 'integer'],
             [['title'], 'string', 'max' => 128],
+            [['size_id', 'stuffing_id', 'target_id', 'paste_id', 'oven_id'], 'integer'],
         ];
     }
 
@@ -49,5 +72,23 @@ class Product extends \yii\db\ActiveRecord
             'price' => Yii::t('app', 'Price'),
             'available_count' => Yii::t('app', 'Available Count'),
         ];
+    }
+
+    public static function find()
+    {
+        return parent::find()
+            ->select([
+                'products.*',
+                'size',
+                'stuffing',
+                'target',
+                'paste',
+                'oven',
+            ])
+            ->leftJoin('sizes', 'sizes.id = products.size_id')
+            ->leftJoin('stuffing', 'stuffing.id = products.stuffing_id')
+            ->leftJoin('targets', 'targets.id = products.target_id')
+            ->leftJoin('pastes', 'pastes.id = products.paste_id')
+            ->leftJoin('ovens', 'ovens.id = products.oven_id');
     }
 }
