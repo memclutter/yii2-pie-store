@@ -1,0 +1,36 @@
+version: '2'
+services:
+  app:
+    build:
+      context: app
+      args:
+        uid: ${UID}
+    container_name: pie-store-app
+    depends_on:
+      - db
+    volumes:
+      - "../app:/var/www/html"
+    env_file: .env
+  nginx:
+    build: ./nginx
+    container_name: pie-store-nginx
+    depends_on:
+      - app
+    ports:
+      - "${NGINX_EXTERNAL_PORT}:80"
+    volumes:
+      - "../app:/var/www/html/"
+      - "./nginx/conf.d:/etc/nginx/conf.d/"
+    env_file: .env
+  db:
+    build: db
+    container_name: pie-store-db
+    ports:
+      - "${DB_EXTERNAL_PORT}:3306"
+    volumes:
+      - "${DB_EXTERNAL_DATA}:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASS}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+      MYSQL_DATABASE: ${DB_NAME}
