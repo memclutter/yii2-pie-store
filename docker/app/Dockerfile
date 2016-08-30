@@ -32,6 +32,11 @@ RUN curl -o /usr/local/bin/gosu -SL "https://github.com/tianon/gosu/releases/dow
     && rm /usr/local/bin/gosu.asc \
     && chmod +sx /usr/local/bin/gosu
 
+# Install dockerize
+ENV DOCKERIZE_VERSION v0.2.0
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+
 WORKDIR ${APP_ROOT}
 
 # Create local user with UID from host machine
@@ -40,4 +45,7 @@ USER user
 RUN composer global require "fxp/composer-asset-plugin:^1.2.0"
 
 CMD composer install \
+ && dockerize -wait tcp://${DB_HOST}:${DB_PORT} -timeout 50s \
+ && php yii migrate --interactive=0 \
+ && php yii faker/products \
  && gosu root php-fpm

@@ -27,6 +27,8 @@ class FakerController extends Controller
         $faker = Factory::create();
         $db = \Yii::$app->db;
 
+        Product::deleteAll();
+
         $sizes    = ArrayHelper::map($db->createCommand('SELECT * FROM sizes')->queryAll(), 'id', 'size');
         $stuffing = ArrayHelper::map($db->createCommand('SELECT * FROM stuffing')->queryAll(), 'id', 'stuffing');
         $targets  = ArrayHelper::map($db->createCommand('SELECT * FROM targets')->queryAll(), 'id', 'target');
