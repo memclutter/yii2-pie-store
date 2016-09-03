@@ -5,6 +5,8 @@ namespace app\controllers;
 use app\models\ProductAttribute;
 use Yii;
 use app\models\ProductSearch;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 
@@ -44,6 +46,8 @@ class ProductController extends Controller
             }
         }
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->getSort()->route = Url::to(['product/index']) . '/' . implode('/', $attributes) . '/';
+        $dataProvider->getSort()->params = ArrayHelper::filter(Yii::$app->request->getQueryParams(), ['sort']);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
