@@ -6,6 +6,7 @@ services:
       args:
         uid: ${UID}
     container_name: pie-store-app
+    restart: ${RESTART_POLICIES}
     depends_on:
       - db
     volumes:
@@ -14,6 +15,7 @@ services:
   nginx:
     build: ./nginx
     container_name: pie-store-nginx
+    restart: ${RESTART_POLICIES}
     depends_on:
       - app
     ports:
@@ -25,6 +27,7 @@ services:
   db:
     build: db
     container_name: pie-store-db
+    restart: ${RESTART_POLICIES}
     ports:
       - "${DB_EXTERNAL_PORT}:3306"
     volumes:

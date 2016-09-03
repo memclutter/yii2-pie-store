@@ -47,5 +47,5 @@ RUN composer global require "fxp/composer-asset-plugin:^1.2.0"
 CMD composer install \
  && dockerize -wait tcp://${DB_HOST}:${DB_PORT} -timeout 50s \
  && php yii migrate --interactive=0 \
- && php yii faker/products \
+ && php yii faker/products 1000 \
  && gosu root php-fpm
