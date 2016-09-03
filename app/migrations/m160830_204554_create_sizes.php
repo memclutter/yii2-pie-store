@@ -12,19 +12,19 @@ class m160830_204554_create_sizes extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
-        $this->createTable('{{%sizes}}', [
-            'id' => $this->primaryKey(),
-            'size' => $this->string(128)->notNull(),
+        $this->createTable('{{%attr_size}}', [
+            'id' => $this->string(128)->unique()->notNull(),
+            'value' => $this->string(128)->notNull(),
         ], $tableOptions);
 
-        $this->addColumn('{{%products}}', 'size_id', $this->integer()->defaultValue(null));
-        $this->addForeignKey('fk-products-sizes', '{{%products}}', 'size_id', '{{%sizes}}', 'id', 'CASCADE', 'CASCADE');
+        $this->addColumn('{{%products}}', 'size_id', $this->string(128)->defaultValue(null));
+        $this->addForeignKey('fk-products-sizes', '{{%products}}', 'size_id', '{{%attr_size}}', 'id', 'CASCADE', 'CASCADE');
     }
 
     public function safeDown()
     {
         $this->dropForeignKey('fk-products-sizes', '{{%products}}');
         $this->dropColumn('{{%products}}', 'size_id');
-        $this->dropTable('{{%sizes}}');
+        $this->dropTable('{{%attr_size}}');
     }
 }

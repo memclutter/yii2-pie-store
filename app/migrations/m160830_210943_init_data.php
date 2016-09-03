@@ -4,100 +4,74 @@ use yii\db\Migration;
 
 class m160830_210943_init_data extends Migration
 {
-    public $sizes = [
-        'XXL',
-        'Огромные',
-        'Большие',
-        'Средние',
-        'Маленькие',
-        'Мини-пирожки',
-    ];
-
-    public $stuffing = [
-        'Картошка',
-        'Капуста',
-        'Курица',
-        'Свинина',
-        'Сосика',
-        'Яйца с луком',
-        'Яблоки',
-        'Вишня',
-        'Клубника',
-        'Баранина',
-        'Сыр',
-        'Творог',
-    ];
-
-    public $targets = [
-        'Сытный',
-        'Легкий',
-        'Подарочный',
-        'В дорогу',
-        'Обеденный',
-        'Домашний',
-    ];
-
-    public $pastes = [
-        'Бисквитное',
-        'Блинное',
-        'Дрожевое',
-        'Бездрожевое',
-        'Заварное',
-        'Песочное',
-        'Пресное',
-        'Сдобное',
-        'Слоенное',
-        'Воздушное',
-        'Ржаное',
-    ];
-
-    public $ovens = [
-        'В духовке',
-        'На дровах',
-        'Жаренные',
-        'На пару',
+    public $fixtures = [
+        'attr_size' => [
+            'xxl' => 'XXL',
+            'large' => 'Огромные',
+            'big' => 'Большие',
+            'medium' => 'Средние',
+            'small' => 'Маленькие',
+            'extra-small' => 'Мини-пирожки',
+        ],
+        'attr_stuffing' => [
+            'potato' => 'Картошка',
+            'cabbage' => 'Капуста',
+            'chicken' => 'Курица',
+            'pork' => 'Свинина',
+            'sausage' => 'Сосика',
+            'eggs-with-onion' => 'Яйца с луком',
+            'apples' => 'Яблоки',
+            'cherry' => 'Вишня',
+            'strawberry' => 'Клубника',
+            'mutton' => 'Баранина',
+            'cheese' => 'Сыр',
+            'curd' => 'Творог',
+        ],
+        'attr_target' => [
+            'satisfying' => 'Сытный',
+            'light' => 'Легкий',
+            'courtesy' => 'Подарочный',
+            'on-the-road' => 'В дорогу',
+            'dining' => 'Обеденный',
+            'home' => 'Домашний',
+        ],
+        'attr_paste' => [
+            'biscuit' => 'Бисквитное',
+            'pancake' => 'Блинное',
+            'yeast' => 'Дрожевое',
+            'without-yeast' => 'Бездрожевое',
+            'brewing' => 'Заварное',
+            'shortbread' => 'Песочное',
+            'unleavened' => 'Пресное',
+            'butter' => 'Сдобное',
+            'puff' => 'Слоенное',
+            'air' => 'Воздушное',
+            'rye' => 'Ржаное',
+        ],
+        'attr_oven' => [
+            'in-the-oven' => 'В духовке',
+            'on-the-wood' => 'На дровах',
+            'fired' => 'Жаренные',
+            'steamed' => 'На пару',
+        ],
     ];
 
     public function safeUp()
     {
-        $this->batchInsert('{{%sizes}}', ['size'], array_map(
-            function($value) {
-                return [$value];
-            },
-            $this->sizes
-        ));
-        $this->batchInsert('{{%stuffing}}', ['stuffing'], array_map(
-            function($value) {
-                return [$value];
-            },
-            $this->stuffing
-        ));
-        $this->batchInsert('{{%targets}}', ['target'], array_map(
-            function($value) {
-                return [$value];
-            },
-            $this->targets
-        ));
-        $this->batchInsert('{{%pastes}}', ['paste'], array_map(
-            function($value) {
-                return [$value];
-            },
-            $this->pastes
-        ));
-        $this->batchInsert('{{%ovens}}', ['oven'], array_map(
-            function($value) {
-                return [$value];
-            },
-            $this->ovens
-        ));
+        foreach ($this->fixtures as $table => $data) {
+            $this->batchInsert('{{%' . $table . '}}', ['id', 'value'], array_map(
+                function($id, $value) {
+                    return [$id, $value];
+                },
+                array_keys($data), $data
+            ));
+        }
     }
 
     public function safeDown()
     {
-        $this->delete('{{%ovens}}');
-        $this->delete('{{%pastes}}');
-        $this->delete('{{%targets}}');
-        $this->delete('{{%stuffing}}');
-        $this->delete('{{%sizes}}');
+        foreach (array_keys($this->fixtures) as $table) {
+            $this->delete('{{%' . $table . '}}');
+        }
     }
 }

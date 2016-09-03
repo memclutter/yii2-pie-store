@@ -33,7 +33,7 @@ class ProductController extends Controller
      * Lists all Product models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($size = null, $stuffing = null, $target = null, $paste = null, $oven = null)
     {
         $searchModel = new ProductSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);

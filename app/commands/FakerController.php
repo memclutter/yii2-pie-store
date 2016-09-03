@@ -3,6 +3,7 @@
 namespace app\commands;
 
 use app\models\Product;
+use app\models\ProductAttribute;
 use Faker\Factory;
 use yii\console\Controller;
 use yii\console\Exception;
@@ -29,11 +30,11 @@ class FakerController extends Controller
 
         Product::deleteAll();
 
-        $sizes    = ArrayHelper::map($db->createCommand('SELECT * FROM sizes')->queryAll(), 'id', 'size');
-        $stuffing = ArrayHelper::map($db->createCommand('SELECT * FROM stuffing')->queryAll(), 'id', 'stuffing');
-        $targets  = ArrayHelper::map($db->createCommand('SELECT * FROM targets')->queryAll(), 'id', 'target');
-        $pastes   = ArrayHelper::map($db->createCommand('SELECT * FROM pastes')->queryAll(), 'id', 'paste');
-        $ovens    = ArrayHelper::map($db->createCommand('SELECT * FROM ovens')->queryAll(), 'id', 'oven');
+        $sizes    = ProductAttribute::getHashMap('size');
+        $stuffing = ProductAttribute::getHashMap('stuffing');
+        $targets  = ProductAttribute::getHashMap('target');
+        $pastes   = ProductAttribute::getHashMap('paste');
+        $ovens    = ProductAttribute::getHashMap('oven');
 
         for ($i = 0; $i < $count; $i++) {
             $product = new Product();

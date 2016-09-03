@@ -12,19 +12,19 @@ class m160830_204621_create_stuffing extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
-        $this->createTable('{{%stuffing}}', [
-            'id' => $this->primaryKey(),
-            'stuffing' => $this->string(128)->notNull(),
+        $this->createTable('{{%attr_stuffing}}', [
+            'id' => $this->string(128)->unique()->notNull(),
+            'value' => $this->string(128)->notNull(),
         ], $tableOptions);
 
-        $this->addColumn('{{%products}}', 'stuffing_id', $this->integer()->defaultValue(null));
-        $this->addForeignKey('fk-products-stuffing', '{{%products}}', 'stuffing_id', '{{%stuffing}}', 'id', 'CASCADE', 'CASCADE');
+        $this->addColumn('{{%products}}', 'stuffing_id', $this->string(128)->defaultValue(null));
+        $this->addForeignKey('fk-products-stuffing', '{{%products}}', 'stuffing_id', '{{%attr_stuffing}}', 'id', 'CASCADE', 'CASCADE');
     }
 
     public function safeDown()
     {
         $this->dropForeignKey('fk-products-stuffing', '{{%products}}');
         $this->dropColumn('{{%products}}', 'stuffing_id');
-        $this->dropTable('{{%stuffing}}');
+        $this->dropTable('{{%attr_stuffing}}');
     }
 }

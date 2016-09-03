@@ -21,6 +21,7 @@ class ProductSearch extends Product
             [['id', 'available_count'], 'integer'],
             [['title', 'description'], 'safe'],
             [['price'], 'number'],
+            [['size_id', 'stuffing_id', 'target_id', 'paste_id', 'oven_id'], 'string'],
         ];
     }
 
@@ -63,11 +64,21 @@ class ProductSearch extends Product
             'id' => $this->id,
             'price' => $this->price,
             'available_count' => $this->available_count,
+            'size_id' => $this->size_id,
+            'stuffing_id' => $this->stuffing_id,
+            'target_id' => $this->target_id,
+            'paste_id' => $this->paste_id,
+            'oven_id' => $this->oven_id,
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
+    }
+
+    public function formName()
+    {
+        return '';
     }
 }

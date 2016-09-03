@@ -12,19 +12,19 @@ class m160830_204737_create_ovens extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
-        $this->createTable('{{%ovens}}', [
-            'id' => $this->primaryKey(),
-            'oven' => $this->string(128)->notNull(),
+        $this->createTable('{{%attr_oven}}', [
+            'id' => $this->string(128)->unique()->notNull(),
+            'value' => $this->string(128)->notNull(),
         ], $tableOptions);
 
-        $this->addColumn('{{%products}}', 'oven_id', $this->integer()->defaultValue(null));
-        $this->addForeignKey('fk-products-ovens', '{{%products}}', 'oven_id', '{{%ovens}}', 'id', 'CASCADE', 'CASCADE');
+        $this->addColumn('{{%products}}', 'oven_id', $this->string(128)->defaultValue(null));
+        $this->addForeignKey('fk-products-attr_oven', '{{%products}}', 'oven_id', '{{%attr_oven}}', 'id', 'CASCADE', 'CASCADE');
     }
 
     public function safeDown()
     {
-        $this->dropForeignKey('fk-products-ovens', '{{%products}}');
+        $this->dropForeignKey('fk-products-attr_oven', '{{%products}}');
         $this->dropColumn('{{%products}}', 'oven_id');
-        $this->dropTable('{{%ovens}}');
+        $this->dropTable('{{%attr_oven}}');
     }
 }

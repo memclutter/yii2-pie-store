@@ -1,5 +1,6 @@
 <?php
 
+use app\models\ProductAttribute;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -16,6 +17,72 @@ use yii\widgets\ActiveForm;
     ]); ?>
 
     <div class="row">
+        <div class="col-sm-4">
+            <?= $form
+                ->field($model, 'size_id')
+                ->label($model->getAttributeLabel('size'))
+                ->dropDownList(
+                    ProductAttribute::getHashMap('size'),
+                    [
+                        'prompt' => '',
+                    ]
+                )
+            ?>
+        </div>
+        <div class="col-sm-4">
+            <?= $form
+                ->field($model, 'stuffing_id')
+                ->label($model->getAttributeLabel('stuffing'))
+                ->dropDownList(
+                    ProductAttribute::getHashMap('stuffing'),
+                    [
+                        'prompt' => ''
+                    ]
+                )
+            ?>
+        </div>
+        <div class="col-sm-4">
+            <?= $form
+                ->field($model, 'target_id')
+                ->label($model->getAttributeLabel('target'))
+                ->dropDownList(
+                    ProductAttribute::getHashMap('target'),
+                    [
+                        'prompt' => ''
+                    ]
+                )
+            ?>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <?= $form
+                ->field($model, 'paste_id')
+                ->label($model->getAttributeLabel('paste'))
+                ->dropDownList(
+                    ProductAttribute::getHashMap('paste'),
+                    [
+                        'prompt' => ''
+                    ]
+                )
+            ?>
+        </div>
+        <div class="col-sm-8">
+            <?= $form
+                ->field($model, 'oven_id')
+                ->label($model->getAttributeLabel('oven'))
+                ->dropDownList(
+                    ProductAttribute::getHashMap('oven'),
+                    [
+                        'prompt' => ''
+                    ]
+                )
+            ?>
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col-sm-3">
             <?= $form->field($model, 'title') ?>
         </div>
@@ -25,6 +92,11 @@ use yii\widgets\ActiveForm;
         <div class="col-sm-3">
             <?= $form->field($model, 'available_count') ?>
         </div>
+    </div>
+
+    <div class="form-group">
+        <?= Html::submitButton(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton(Yii::t('app', 'Reset'), ['class' => 'btn btn-default']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

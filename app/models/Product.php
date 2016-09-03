@@ -56,7 +56,7 @@ class Product extends \yii\db\ActiveRecord
             [['price'], 'number'],
             [['available_count'], 'integer'],
             [['title'], 'string', 'max' => 128],
-            [['size_id', 'stuffing_id', 'target_id', 'paste_id', 'oven_id'], 'integer'],
+            [['size_id', 'stuffing_id', 'target_id', 'paste_id', 'oven_id'], 'string'],
         ];
     }
 
@@ -79,16 +79,16 @@ class Product extends \yii\db\ActiveRecord
         return parent::find()
             ->select([
                 'products.*',
-                'size',
-                'stuffing',
-                'target',
-                'paste',
-                'oven',
+                'size' => 'attr_size.value',
+                'stuffing' => 'attr_stuffing.value',
+                'target' => 'attr_target.value',
+                'paste' => 'attr_paste.value',
+                'oven' => 'attr_oven.value',
             ])
-            ->leftJoin('sizes', 'sizes.id = products.size_id')
-            ->leftJoin('stuffing', 'stuffing.id = products.stuffing_id')
-            ->leftJoin('targets', 'targets.id = products.target_id')
-            ->leftJoin('pastes', 'pastes.id = products.paste_id')
-            ->leftJoin('ovens', 'ovens.id = products.oven_id');
+            ->leftJoin('attr_size', 'attr_size.id = products.size_id')
+            ->leftJoin('attr_stuffing', 'attr_stuffing.id = products.stuffing_id')
+            ->leftJoin('attr_target', 'attr_target.id = products.target_id')
+            ->leftJoin('attr_paste', 'attr_paste.id = products.paste_id')
+            ->leftJoin('attr_oven', 'attr_oven.id = products.oven_id');
     }
 }
