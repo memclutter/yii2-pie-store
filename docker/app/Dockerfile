@@ -22,6 +22,11 @@ RUN docker-php-ext-install -j$(nproc) \
         mysqli \
         pdo_mysql
 
+# Install pecl extensions
+RUN pecl install \
+        redis \
+ && docker-php-ext-enable redis
+
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install go su for simple su
@@ -45,7 +50,7 @@ USER user
 RUN composer global require "fxp/composer-asset-plugin:^1.2.0"
 
 CMD composer install \
- && dockerize -wait tcp://${DB_HOST}:${DB_PORT} -timeout 50s \
+ && dockerize -wait tcp://${DB_HOST}:${DB_PORT} -wait tcp://${REDIS_HOST}:${REDIS_PORT} -timeout 70s \
  && php yii migrate --interactive=0 \
  && php yii faker/products 1000 \
  && gosu root php-fpm

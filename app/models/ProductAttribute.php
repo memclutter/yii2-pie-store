@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Yii;
 use yii\base\Object;
 use yii\db\Query;
 
@@ -37,11 +38,13 @@ class ProductAttribute extends Object
     public static function getHashMap($type, $idAttribute = 'id', $valueAttribute = 'value')
     {
         if (!isset(static::$hashMapCaches[$type])) {
-            static::$hashMapCaches[$type] = (new Query())
-                ->from('{{%attr_' . $type . '}}')
-                ->select([$valueAttribute, $idAttribute])
-                ->indexBy($idAttribute)
-                ->column();
+            static::$hashMapCaches[$type] = Yii::$app->db->cache(function($db) use ($type, $idAttribute, $valueAttribute) {
+                return (new Query())
+                    ->from('{{%attr_' . $type . '}}')
+                    ->select([$valueAttribute, $idAttribute])
+                    ->indexBy($idAttribute)
+                    ->column();
+            });
         }
 
         return static::$hashMapCaches[$type];

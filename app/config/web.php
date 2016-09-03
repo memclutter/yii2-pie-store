@@ -15,7 +15,12 @@ $config = [
             'cookieValidationKey' => 'm5ecMVckzwWBuVucrcQPT3VaaMK-8rin',
         ],
         'cache' => [
-            'class' => 'yii\caching\FileCache',
+            'class' => 'yii\redis\Cache',
+            'redis' => [
+                'hostname' => getenv('REDIS_HOST'),
+                'port' => getenv('REDIS_PORT'),
+                'database' => 0,
+            ]
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

@@ -9,6 +9,7 @@ services:
     restart: ${RESTART_POLICIES}
     depends_on:
       - db
+      - redis
     volumes:
       - "../app:/var/www/html"
     env_file: .env
@@ -37,3 +38,7 @@ services:
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASS}
       MYSQL_DATABASE: ${DB_NAME}
+  redis:
+    build: redis
+    container_name: pie-store-redis
+    restart: ${RESTART_POLICIES}
