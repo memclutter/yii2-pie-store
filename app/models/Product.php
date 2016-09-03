@@ -67,10 +67,15 @@ class Product extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'title' => Yii::t('app', 'Title'),
+            'title' => 'Название',
             'description' => Yii::t('app', 'Description'),
-            'price' => Yii::t('app', 'Price'),
-            'available_count' => Yii::t('app', 'Available Count'),
+            'price' => 'Цена',
+            'available_count' => 'Есть на складе',
+            'size' => 'Размер',
+            'stuffing' => 'Начинка',
+            'target' => 'Назначение',
+            'paste' => 'Тесто',
+            'oven' => 'Способ приготовления',
         ];
     }
 

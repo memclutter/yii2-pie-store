@@ -36,7 +36,7 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Catalog', 'url' => ['/product/index']],
+            ['label' => 'Каталог', 'url' => ['/product/index']],
         ],
     ]);
     NavBar::end();
@@ -52,7 +52,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; Memory Clutter (<a href="mailto:memclutter@gmail.com">memclutter@gmail.com</a>) <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
