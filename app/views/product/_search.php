@@ -14,6 +14,9 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
+        'options' => [
+            'class' => 'catalog-search-form',
+        ],
     ]); ?>
 
     <div class="row">
@@ -79,18 +82,6 @@ use yii\widgets\ActiveForm;
                     ]
                 )
             ?>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-3">
-            <?= $form->field($model, 'title') ?>
-        </div>
-        <div class="col-sm-3">
-            <?= $form->field($model, 'price') ?>
-        </div>
-        <div class="col-sm-3">
-            <?= $form->field($model, 'available_count') ?>
         </div>
     </div>
 

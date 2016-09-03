@@ -38,14 +38,14 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'catalog' => 'product/index',
+                'catalog/<attributes:[\w\d\-\/]+>' => 'product/index',
             ],
         ],
-        */
     ],
     'params' => $params,
 ];

@@ -2,11 +2,10 @@
 
 namespace app\controllers;
 
+use app\models\ProductAttribute;
 use Yii;
-use app\models\Product;
 use app\models\ProductSearch;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
@@ -31,32 +30,24 @@ class ProductController extends Controller
 
     /**
      * Lists all Product models.
+     * @param null $attributes
      * @return mixed
      */
-    public function actionIndex($size = null, $stuffing = null, $target = null, $paste = null, $oven = null)
+    public function actionIndex($attributes = null)
     {
+        $attributes = array_filter(explode('/', $attributes), 'trim');
+
         $searchModel = new ProductSearch();
+        foreach ($attributes as $attribute) {
+            if (false !== $type = ProductAttribute::getAttributeType($attribute)) {
+                $searchModel->{$type . '_id'} = $attribute;
+            }
+        }
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
-    }
-
-    /**
-     * Finds the Product model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Product the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Product::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
     }
 }
