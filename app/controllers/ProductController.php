@@ -8,28 +8,12 @@ use app\models\ProductSearch;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
 
 /**
  * ProductController implements the CRUD actions for Product model.
  */
 class ProductController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * Lists all Product models.
      * @param null $attributes
